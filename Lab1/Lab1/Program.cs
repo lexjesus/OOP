@@ -1,7 +1,6 @@
 ﻿using System;
 using static System.Console;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace proj
 {
@@ -13,102 +12,37 @@ namespace proj
             StudentGroup group2 = new StudentGroup("8311", 10);
 
 
-            Student s1 = new Student("Шаклеин", "Всеволод", "Иванович");
-            Student s2 = new Student("Баранов", "Алексей", "Сергеевич");
-            Student s3 = new Student("Ефимов", "Артем", "Сергеевич");
-            Student s4 = new Student("Артемов", "Ефим", "Алексеевич");
-            Student s5 = new Student("Григорьев", "Дмитрий", "Григорьевич");
-            Student s6 = new Student("Магомедов", "Магомед", "Магомедович");
-
-            try
-            {
-                group1.AddStudent(new List<Student> { s1, s2, s3, s4, s5, s6 });
-            }
-            catch (AddStudentException e)
-            {
-                WriteLine(e.Message);
-                WriteLine($"{e.Value} students are not added");
-            }
-
-            try
-            {
-                group2.AddStudent(s5);
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
-
-            try
-            {
-                group2.AddStudent(s6);
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
-
-            try
-            {
-                group1.AddStudent(new Student("Путин", "Владимир", "Владимирович"));
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
-
-            Student s7;
-
-            s7 = group1.GetStudent("Путин", "Владимир", "Владимирович");
-
-            try
-            {
-                group2.AddStudent(s7);
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
-
-            group1.DisplaySortedByName();
-
-            try
-            {
-                group1.AddMarks("Артемов", "Ефим", "Алексеевич", new List<int> { 3, 4, 4, 5 });
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
-
-            try
-            {
-                group1.AddMarks(s7, new List<int> { 2, 4, 6, 3, 7 });
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
-
-            try
-            {
-                group2.AddMarks(s1, new List<int> { 2, 4, 6, 3, 7 });
-            }
-            catch (Exception e)
-            {
-                WriteLine(e.Message);
-            }
+            Council s1 = new Council("Шаклеин", "Всеволод", "Иванович");
+            Council s2 = new Council("Баранов", "Алексей", "Сергеевич");
+            UsualStudent s3 = new UsualStudent("Ефимов", "Артем", "Сергеевич");
+            UsualStudent s4 = new UsualStudent("Артемов", "Ефим", "Алексеевич");
+            Nerd s5 = new Nerd("Григорьев", "Дмитрий", "Григорьевич");
+            Nerd s6 = new Nerd("Магомедов", "Магомед", "Магомедович");
 
 
+            group1.AddStudent(s1);
+            group1.AddStudent(s2);
+            group1.AddStudent(s3);
+            group2.AddStudent(s3);
+            group2.AddStudent(s4);
+            group2.AddStudent(s5);
+            group2.AddStudent(s6);
 
-            group1.DisplaySortedByMarks();
 
-            WriteLine(group1);
-            WriteLine(group2);
+            s1.ToExamStudent(group1, "Математика");
+            s1.ToExamStudent(group1, "Математика");
+            s1.ToExamStudent(group1, "Математика");
+            s1.ToExamStudent(group1, "Математика");
+            s3.ToExamStudent(group1, "Математика");
+            s3.ToExamStudent(group2, "Математика");
+            s5.ToExamStudent(group2, "Математика");
+            WriteLine(s1);
+            WriteLine(s3);
             WriteLine(s5);
-            WriteLine(s6);
-            WriteLine(s7);
 
+            s1.DisplayExams();
+            s3.DisplayExams();
+            s5.DisplayExams();
 
             ReadLine();
 

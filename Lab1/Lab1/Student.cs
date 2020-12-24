@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace proj
 {
-    class Student
+    public abstract class Student
     {
-        private string firstName;
-        private string secondName;
-        private string thirdName;
-        public byte grCount = 0;
-        internal List<byte> marks = new List<byte>();
+        public string firstName { get; set; }
+        public string secondName { get; set; }
+        public string thirdName { get; set; }
+        public List<StudentGroup> groups = new List<StudentGroup>();
+        public List<byte> marks = new List<byte>();
+        public Dictionary<Exam, int> dictAtt = new Dictionary<Exam, int>();
+
 
         public Student() : this("Unknown", "Unknown", "Unknown")
         { }
@@ -18,42 +20,6 @@ namespace proj
             this.firstName = firstName;
             this.secondName = secondName;
             this.thirdName = thirdName;
-        }
-
-        public string FirstName
-        {
-            get
-            {
-                return firstName;
-            }
-            set
-            {
-                firstName = value;
-            }
-        }
-
-        public string SecondName
-        {
-            get
-            {
-                return secondName;
-            }
-            set
-            {
-                secondName = value;
-            }
-        }
-
-        public string ThirdName
-        {
-            get
-            {
-                return thirdName;
-            }
-            set
-            {
-                thirdName = value;
-            }
         }
 
         public float AverMarks
@@ -87,13 +53,124 @@ namespace proj
                 Console.WriteLine("Average mark: {0}", AverMarks);
             }
             Console.WriteLine("-------------------");
+        }
 
+        public void DisplayExams()
+        {
+            string exMrks = "";
+            foreach (var g in groups)
+            {
+                exMrks += g.grName + ":\n";
+                foreach (var i in g.exams)
+                {
+                    if (i.ExGetMark(this) != -1)
+                    {
+                        exMrks += i.name + ": " + i.ExGetMark(this) + "\n";
+                    }
+                    else
+                    {
+                        exMrks += i.name + ": " + "None" + "\n";
+                    }
+                }
+                exMrks += "\n";
+            }
+
+            Console.WriteLine($"Student {secondName} {firstName} {thirdName}: \n{exMrks}");
         }
         public override string ToString()
         {
-            return $" Student {secondName} {firstName} {thirdName} studies in {grCount} groups.";
+            string grps = "";
+            foreach(var i in groups)
+            {
+                grps += " " + i.grName;
+            }
+            return $" Student {secondName} {firstName} {thirdName} studies in groups:{grps}.";
         }
 
+        
+    }
+
+    public class Nerd : Student
+    {
+        public Nerd(string secondName, string firstName, string thirdName)
+            : base(secondName, firstName, thirdName)
+        { }
+        public bool ToExamStudent(StudentGroup sg, string exName)
+        {
+            if (!sg.students.Contains(this) || !groups.Contains(sg))
+            {
+                return false;
+            }
+            Exam examen = sg.CreateUseExam(exName);
+            if (!dictAtt.ContainsKey(examen))
+            {
+                dictAtt.Add(examen, 0);
+            }
+            examen.DoExam(4, 5, this);
+            return true;
+        }
+
+    }
+
+    public class UsualStudent : Student
+    {
+        public UsualStudent(string secondName, string firstName, string thirdName)
+            : base(secondName, firstName, thirdName)
+        { }
+        public bool ToExamStudent(StudentGroup sg, string exName)
+        {
+            if (!sg.students.Contains(this) || !groups.Contains(sg))
+            {
+                return false;
+            }
+            Exam examen = sg.CreateUseExam(exName);
+            if (!dictAtt.ContainsKey(examen))
+            {
+                dictAtt.Add(examen, 0);
+            }
+            if (examen.ExGetMark(this) > 2 && examen.ExGetMark(this) != -1)
+            {
+                return false;
+            }
+            if (dictAtt[examen] < examen.maxRetake)
+            {
+                examen.DoExam(2, 5, this);
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+
+    public class Council : UsualStudent
+    {
+        public Council(string secondName, string firstName, string thirdName)
+            : base(secondName, firstName, thirdName)
+        { }
+
+        public new bool ToExamStudent(StudentGroup sg, string exName)
+        {
+            if (!sg.students.Contains(this) || !groups.Contains(sg))
+            {
+                return false;
+            }
+            Exam examen = sg.CreateUseExam(exName);
+            if (!dictAtt.ContainsKey(examen))
+            {
+                dictAtt.Add(examen, 0);
+            }
+            if ((dictAtt[examen] + 1) == examen.maxRetake)
+            {
+                examen.DoExam(3, 3, this);
+            }
+            else
+            {
+                examen.DoExam(2, 5, this);
+            }
+            return true;
+        }
     }
 
 }

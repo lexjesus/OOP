@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Администратор\\source\\repos\\OOP\\Lab1\\Lab1\\Lab1.csproj",
-      "projectName": "Lab1",
-      "projectPath": "C:\\Users\\Администратор\\source\\repos\\OOP\\Lab1\\Lab1\\Lab1.csproj",
+      "projectUniqueName": "C:\\Users\\Администратор\\source\\repos\\OOP\\Lab1\\Lab1\\Lab2.csproj",
+      "projectName": "Lab2",
+      "projectPath": "C:\\Users\\Администратор\\source\\repos\\OOP\\Lab1\\Lab1\\Lab2.csproj",
       "packagesPath": "C:\\Users\\Администратор\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Администратор\\source\\repos\\OOP\\Lab1\\Lab1\\obj\\",
       "projectStyle": "PackageReference",
@@ -32,6 +32,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -43,6 +44,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "imports": [
           "net461",
           "net462",
@@ -58,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
